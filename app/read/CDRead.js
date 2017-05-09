@@ -25,12 +25,7 @@ export default class extends Component {
         return (
             <View style={styles.container}>
                 <Nav
-                    leftTitle="123"
-                    leftIcon="btn_backitem"
-                    leftClick={()=>this._NavLeftClick()}
-                    rightTitle="123"
-                    rightClick={()=>this._NavLeftClick()}
-                    center="reading"
+                    centerIcon="reading"
                 />
                 <TouchableOpacity onPress={()=>this._pushToNewsDetail()}>
                     <Text>阅读</Text>
@@ -43,9 +38,6 @@ export default class extends Component {
         this.props.navigator.push({
             component: CDReadDetail
         })
-    }
-    _NavLeftClick(){
-        alert('左边')
     }
 }
 
