@@ -9,7 +9,8 @@ import {
     Text,
     Image,
     ListView,
-    TouchableOpacity
+    TouchableOpacity,
+    Switch,
 } from 'react-native';
 
 import Util from './../Util/Util';
@@ -18,6 +19,8 @@ export default class extends Component {
     static propTypes = {
         dataArr : PropTypes.array,
         cellClick : PropTypes.func,
+        headerView : PropTypes.object,
+        footerView : PropTypes.object,
     };
     constructor(props) {
         super(props);
@@ -33,7 +36,8 @@ export default class extends Component {
                 getRowData : getRowData,
                 rowHasChanged : (r1,r2)=>r1 !== r2,
                 sectionHeaderHasChanged : (s1,s2)=>s1 !== s2,
-            })
+            }),
+            switchSelected:true,
         };
     }
 
@@ -44,6 +48,8 @@ export default class extends Component {
                 dataSource={this.state.dataSource}
                 renderSectionHeader={this._renderSectionHeader.bind(this)}
                 renderRow={this._renderRow.bind(this)}
+                renderHeader={this._renderHeader.bind(this)}
+                renderFooter={this._renderFooter.bind(this)}
             />
         )
     }
@@ -72,7 +78,13 @@ export default class extends Component {
             dataSource:this.state.dataSource.cloneWithRowsAndSections(dataBlob,sectionIDs,rowIDs)
         });
     }
-
+    _renderHeader(){
+        if(this.props.headerView !== ''){
+            return this.props.headerView;
+        }else{
+            return <View/>
+        }
+    }
     _renderSectionHeader(sectionData){
         if(sectionData.title !== ''){
             return(
@@ -86,7 +98,6 @@ export default class extends Component {
             )
         }
     }
-
     _renderRow(rowData,sectionID,rowID){
         return(
             <TouchableOpacity style={styles.rowStyle} onPress={()=>this.props.cellClick(sectionID,rowID)}>
@@ -104,7 +115,7 @@ export default class extends Component {
                 temp = (
                     <View style={styles.betweenRowStyle}>
                         <Image source={{uri:rowData.leftIcon}} style={styles.imgStyle}/>
-                        <Text style={{fontSize:12}}>{rowData.name}</Text>
+                        <Text style={{fontSize:12,marginLeft:8}}>{rowData.name}</Text>
                     </View>
                 )
             }else{//没有文字只有图片
@@ -117,7 +128,7 @@ export default class extends Component {
         }else if((rowData.leftIcon == ''|| rowData.leftIcon == 'undefined') && rowData.name !== ''){//没有图片有文字
             temp = (
                 <View style={styles.betweenRowStyle}>
-                    <Text style={{fontSize:12}}>{rowData.name}</Text>
+                    <Text style={{fontSize:12,marginLeft:8}}>{rowData.name}</Text>
                 </View>
             )
         }else{//没有图片也没有文字
@@ -128,27 +139,48 @@ export default class extends Component {
     _RightRenderRow(rowData){
         let temp;
         if(rowData.disc !==''){
-            temp = (
-                <View style={styles.betweenRowStyle}>
-                    <Text style={{fontSize:12}}>{rowData.disc}</Text>
-                    <Image
-                        source={require('./../../images/icon_shike_arrow.jpg')}
-                        style={[styles.imgStyle,{width:7,height:12}]}
-                    />
-                </View>
-            )
+            if(rowData.disc == 'switch'){//开关
+                temp = (
+                    <View style={styles.betweenRowStyle}>
+                        <Switch
+                            value= {this.state.switchSelected}
+                            onValueChange={()=>this.setState({
+                               switchSelected: !this.state.switchSelected
+                            })}
+                        />
+                    </View>
+                )
+            }else{//不是开关
+                temp = (
+                    <View style={styles.betweenRowStyle}>
+                        <Text style={{fontSize:12}}>{rowData.disc}</Text>
+                        <Image
+                            source={require('./../../images/icon_shike_arrow.jpg')}
+                            style={[styles.imgStyle,{width:7,height:12,marginRight:8}]}
+                        />
+                    </View>
+                )
+            }
         }else{
             temp = (
                 <View style={styles.betweenRowStyle}>
                     <Image
                         source={require('./../../images/icon_shike_arrow.jpg')}
-                        style={[styles.imgStyle,{width:7,height:12}]}
+                        style={[styles.imgStyle,{width:7,height:12,marginRight:8}]}
                     />
                 </View>
             )
         }
         return temp;
     }
+    _renderFooter(){
+        if(this.props.footerView !== ''){
+            return this.props.footerView;
+        }else{
+            return <View/>
+        }
+    }
+
 }
 
 const styles = StyleSheet.create({
@@ -168,7 +200,6 @@ const styles = StyleSheet.create({
         width:17,
         height:17,
         marginLeft:8,
-        marginRight:8,
     },
     betweenRowStyle:{
         flexDirection:'row',
