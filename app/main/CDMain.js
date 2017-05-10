@@ -25,7 +25,7 @@ export default class extends Component{
         super(props);
         // 初始状态
         this.state = {
-            selectedTab:'read'
+            selectedTab:'mine'
         };
       }
     render(){
