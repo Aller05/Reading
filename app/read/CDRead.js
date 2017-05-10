@@ -35,6 +35,7 @@ export default class extends Component {
     }
 
     _pushToNewsDetail() {
+        console.log(CDReadDetail);
         this.props.navigator.push({
             component: CDReadDetail
         })
@@ -45,7 +46,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: Util.bgColor,
-        // justifyContent: 'center',
         alignItems: 'center'
     }
 });

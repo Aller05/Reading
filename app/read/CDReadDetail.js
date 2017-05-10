@@ -7,8 +7,8 @@ import {
     StyleSheet,
     View,
     Text,
-    TouchableOpacity
 } from 'react-native';
+import Nav from './../Util/CDCommonNav';
 
 export default class extends Component {
     // 构造
@@ -20,10 +20,11 @@ export default class extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <TouchableOpacity onPress={()=>this.props.navigator.pop()}>
-                    <Text>详情</Text>
-                </TouchableOpacity>
-
+                <Nav
+                    leftIcon="btn_backitem"
+                    leftClick={()=>this.props.navigator.pop()}
+                    centerTitle="详情页"
+                />
             </View>
         )
     }
@@ -32,8 +33,6 @@ export default class extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'red',
-        justifyContent: 'center',
         alignItems: 'center'
     }
 });

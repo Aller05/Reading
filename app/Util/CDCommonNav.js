@@ -7,7 +7,8 @@ import {
     View,
     Text,
     Image,
-    TouchableOpacity
+    TouchableOpacity,
+    Platform,
 } from 'react-native';
 
 import Util from './Util';
@@ -113,11 +114,12 @@ export default class extends Component{
 const styles = StyleSheet.create({
     container:{
         width:Util.screen.width,
-        height:Util.navHeight,
+        height:Platform.OS == 'ios'? 64 : Util.navHeight,
         backgroundColor:'#fff',
         flexDirection:'row',
         borderBottomColor:'#ccc',
-        borderBottomWidth:1
+        borderBottomWidth:1,
+        paddingTop:Platform.OS == 'ios'? 20 : 0,
     },
     centerImgStyle:{
         width:54,

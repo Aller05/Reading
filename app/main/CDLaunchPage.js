@@ -23,7 +23,7 @@ export default class extends Component{
         super(props);
         // 初始状态
         this.state = {
-            isFirstOpen:true
+            isFirstOpen:false
         };
       }
     render(){
@@ -49,7 +49,7 @@ export default class extends Component{
             )
         }else{
             return(
-                <CDMain/>
+                <CDMain {...this.props}/>
             )
         }
     }
